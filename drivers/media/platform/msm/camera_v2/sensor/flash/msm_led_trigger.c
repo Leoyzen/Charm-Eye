@@ -33,9 +33,9 @@ extern int32_t msm_led_torch_create_classdev(
 static enum flash_type flashtype;
 static struct msm_led_flash_ctrl_t fctrl;
 
-#if 1 
-static struct kobject *led_status_obj; 
-#endif 
+#if 1
+static struct kobject *led_status_obj;
+#endif
 
 static int32_t msm_led_trigger_get_subdev_id(struct msm_led_flash_ctrl_t *fctrl,
 	void *arg)
@@ -63,23 +63,23 @@ static int32_t msm_led_trigger_config(struct msm_led_flash_ctrl_t *fctrl,
 	}
 	switch (cfg->cfgtype) {
 	case MSM_CAMERA_LED_OFF:
-        #ifndef CONFIG_FLASHLIGHT_TPS61310 
+        #ifndef CONFIG_FLASHLIGHT_TPS61310
         led_trigger_event(fctrl->led_trigger[0], 0);
         #else
         tps61310_flashlight_control(FL_MODE_OFF);
-        #endif 
+        #endif
         break;
 
 	case MSM_CAMERA_LED_LOW:
-        #ifndef CONFIG_FLASHLIGHT_TPS61310 
+        #ifndef CONFIG_FLASHLIGHT_TPS61310
         led_trigger_event(fctrl->led_trigger[0], fctrl->op_current[0] / 2);
         #else
         tps61310_flashlight_control(FL_MODE_PRE_FLASH);
-        #endif 
+        #endif
         break;
 
 	case MSM_CAMERA_LED_HIGH:
-        #ifndef CONFIG_FLASHLIGHT_TPS61310 
+        #ifndef CONFIG_FLASHLIGHT_TPS61310
         led_trigger_event(fctrl->led_trigger[0], fctrl->op_current[0]);
         #else
         pr_info("[CAM][FL] called linear flashlight current value %d", (int)cfg->ma_value);
@@ -95,16 +95,16 @@ static int32_t msm_led_trigger_config(struct msm_led_flash_ctrl_t *fctrl,
               tps61310_flashlight_mode2(led1, led2);
           }
         }
-        #endif 
+        #endif
         break;
 
 	case MSM_CAMERA_LED_INIT:
 	case MSM_CAMERA_LED_RELEASE:
-        #ifndef CONFIG_FLASHLIGHT_TPS61310 
+        #ifndef CONFIG_FLASHLIGHT_TPS61310
         led_trigger_event(fctrl->led_trigger[0], 0);
         #else
         tps61310_flashlight_control(FL_MODE_OFF);
-        #endif 
+        #endif
         break;
 
 	default:
@@ -188,7 +188,7 @@ static int32_t msm_led_trigger_probe(struct platform_device *pdev)
 			pr_info("default trigger %s\n", fctrl.led_trigger_name[i]);
 
 			if (flashtype == GPIO_FLASH) {
-				
+
 				fctrl.op_current[i] = LED_FULL;
 			} else {
 				rc = of_property_read_u32(flash_src_node,
@@ -216,7 +216,7 @@ static int32_t msm_led_trigger_probe(struct platform_device *pdev)
 					temp = fctrl.led_trigger[i];
 		}
 
-		
+
 		flash_src_node = of_parse_phandle(of_node, "qcom,torch-source",
 			0);
 		if (flash_src_node) {
@@ -232,7 +232,7 @@ static int32_t msm_led_trigger_probe(struct platform_device *pdev)
 				fctrl.torch_trigger_name);
 
 			if (flashtype == GPIO_FLASH) {
-				
+
 				fctrl.torch_op_current = LED_FULL;
 				if (temp)
 					fctrl.torch_trigger = temp;
@@ -272,7 +272,7 @@ torch_failed:
 	return rc;
 }
 
-#if 1 
+#if 1
 
 static uint32_t led_ril_status_value;
 static uint32_t led_wimax_status_value;
@@ -285,8 +285,8 @@ static ssize_t led_ril_status_get(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
 	ssize_t length;
-       if(buf)
-	    length = sprintf(buf, "%d\n", led_ril_status_value);
+       /* if(buf) */
+    length = sprintf(buf, "%d\n", led_ril_status_value);
 	return length;
 }
 
@@ -307,8 +307,8 @@ static ssize_t led_wimax_status_get(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
 	ssize_t length;
-	if(buf)
-	    length = sprintf(buf, "%d\n", led_wimax_status_value);
+    /* if(buf) */
+    length = sprintf(buf, "%d\n", led_wimax_status_value);
 	return length;
 }
 
@@ -329,8 +329,8 @@ static ssize_t led_hotspot_status_get(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
 	ssize_t length;
-	if(buf)
-	    length = sprintf(buf, "%d\n", led_hotspot_status_value);
+	/* if(buf) */
+    length = sprintf(buf, "%d\n", led_hotspot_status_value);
 	return length;
 }
 
@@ -339,7 +339,7 @@ static ssize_t led_hotspot_status_set(struct device *dev,
 {
 	uint32_t tmp = 0;
 
-	tmp = buf[0] - 0x30; 
+	tmp = buf[0] - 0x30;
 
 	led_hotspot_status_value = tmp;
 	pr_info("[CAM][FL] led_hotspot_status_value = %d\n", led_hotspot_status_value);
@@ -350,8 +350,8 @@ static ssize_t low_temp_limit_get(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
 	ssize_t length;
-	if(buf)
-	    length = sprintf(buf, "%d\n", led_low_temp_limit);
+	/* if(buf) */
+    length = sprintf(buf, "%d\n", led_low_temp_limit);
 	return length;
 }
 
@@ -359,8 +359,8 @@ static ssize_t low_cap_limit_get(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
 	ssize_t length;
-	if(buf)
-	    length = sprintf(buf, "%d\n", led_low_cap_limit);
+	/* if(buf) */
+    length = sprintf(buf, "%d\n", led_low_cap_limit);
 	return length;
 }
 
@@ -368,8 +368,8 @@ static ssize_t low_cap_limit_dual_get(struct device *dev,
 				struct device_attribute *attr, char *buf)
 {
 	ssize_t length;
-	if(buf)
-	    length = sprintf(buf, "%d\n", led_low_cap_limit_dual);
+	/* if(buf) */
+    length = sprintf(buf, "%d\n", led_low_cap_limit_dual);
 	return length;
 }
 
@@ -461,11 +461,11 @@ error:
 	return ret;
 
 }
-#endif 
+#endif
 
 static int __init msm_led_trigger_add_driver(void)
 {
-    #if 0 
+    #if 0
 
 	CDBG("called\n");
 	return platform_driver_probe(&msm_led_trigger_driver,
@@ -487,7 +487,7 @@ static int __init msm_led_trigger_add_driver(void)
 	pr_err("%s:%d rc %d\n", __func__, __LINE__, rc);
 	return rc;
 
-    #endif 
+    #endif
 }
 
 static struct msm_flash_fn_t msm_led_trigger_func_tbl = {
